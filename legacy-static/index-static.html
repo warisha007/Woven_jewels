@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e5">
+    <meta name="description" content="Discover handcrafted jewelry from Woven Jewels. Thoughtful pieces, made to be treasured.">
+    <title>Woven Jewels — Handcrafted, With Heart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        color-scheme: light;
+        --cream: #f5f0e5;
+        --cream-deep: #ebe2d0;
+        --paper: #fffdf8;
+        --ink: #34291e;
+        --muted: #71614d;
+        --gold: #a77c3f;
+        --gold-dark: #78572d;
+        --line: rgba(91, 67, 38, .16);
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "DM Sans", "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+      .container { width: min(1240px, calc(100% - 64px)); margin-inline: auto; }
+
+      .site-header {
+        position: relative;
+        z-index: 5;
+        background: rgba(255, 253, 248, .92);
+        border-bottom: 1px solid var(--line);
+      }
+      .header-inner {
+        min-height: 84px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 28px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-self: start;
+      }
+      .brand-symbol {
+        display: block;
+        width: 32px;
+        height: 50px;
+        flex: none;
+        background: url("./woven-jewels-logo.jpeg") 50% 21% / 100px 100px no-repeat;
+        mix-blend-mode: multiply;
+      }
+      .brand-wordmark {
+        display: block;
+        width: 190px;
+        height: 42px;
+        flex: none;
+        background: url("./woven-jewels-logo.jpeg") center 80% / 100% auto no-repeat;
+        mix-blend-mode: multiply;
+      }
+      .main-nav { display: flex; align-items: center; gap: 34px; }
+      .mobile-nav { display: none; }
+      .main-nav a, .footer-links a {
+        color: var(--muted);
+        font-size: 13px;
+        transition: color .2s ease;
+      }
+      .main-nav a:hover, .footer-links a:hover { color: var(--gold-dark); }
+      .header-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
+      .cart-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .cart-count {
+        min-width: 20px;
+        height: 20px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--cream-deep);
+        color: var(--gold-dark);
+        font-size: 11px;
+      }
+      .header-cta, .hero-cta {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 9px;
+        min-height: 44px;
+        padding: 0 20px;
+        border: 1px solid var(--gold-dark);
+        border-radius: 3px;
+        background: var(--gold-dark);
+        color: var(--paper);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        transition: background .2s ease, color .2s ease, transform .2s ease;
+      }
+      .header-cta:hover, .hero-cta:hover { background: var(--ink); transform: translateY(-1px); }
+      .menu-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .hero {
+        padding: 36px 0 42px;
+        background: linear-gradient(180deg, #f8f4eb, var(--cream));
+      }
+      .hero-inner { display: grid; gap: 32px; }
+      .hero-copy {
+        max-width: 760px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--gold-dark);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 720px;
+        margin: 0 auto 16px;
+        font-family: var(--serif);
+        font-size: clamp(34px, 4.8vw, 56px);
+        font-weight: 500;
+        letter-spacing: -.015em;
+        line-height: 1.16;
+        text-wrap: balance;
+      }
+      .hero-description {
+        max-width: 540px;
+        margin: 0 auto;
+        color: var(--muted);
+        font-size: clamp(14px, 1.15vw, 16px);
+        line-height: 1.75;
+        text-wrap: pretty;
+      }
+      .hero-media {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        width: min(100%, 96vh);
+        margin-inline: auto;
+        aspect-ratio: 1024 / 725;
+        border: 1px solid rgba(120, 87, 45, .2);
+        background: var(--cream-deep);
+        box-shadow: 0 18px 45px rgba(67, 47, 24, .12);
+      }
+      .hero-media img {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      .image-caption {
+        position: absolute;
+        z-index: 1;
+        right: 20px;
+        bottom: 20px;
+        padding: 10px 15px;
+        border: 1px solid rgba(255, 253, 248, .75);
+        background: rgba(255, 253, 248, .88);
+        color: var(--gold-dark);
+        font-family: var(--serif);
+        font-size: 14px;
+      }
+      .view-collections-hotspot {
+        position: absolute;
+        z-index: 3;
+        top: 87.5%;
+        left: 73%;
+        width: 23%;
+        height: 11%;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      .view-collections-hotspot:focus-visible {
+        outline: 3px solid var(--gold-dark);
+        outline-offset: 3px;
+      }
+      .jewel-picker {
+        position: absolute;
+        z-index: 2;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .jewel-picker > .jewel-handle, .jewel-picker > .jewel-price { display: none; }
+      .jewel-picker:active { cursor: grabbing; }
+      .jewel-picker:hover {
+        outline: 1px dashed rgba(120, 87, 45, .7);
+        outline-offset: -2px;
+        background: rgba(255, 253, 248, .035);
+      }
+      .jewel-picker:focus-visible {
+        outline: 2px solid var(--gold-dark);
+        outline-offset: -2px;
+        background: rgba(255, 253, 248, .12);
+      }
+      .gift-box-drop {
+        position: absolute;
+        z-index: 3;
+        top: 52%;
+        left: 34%;
+        width: 34%;
+        height: 34%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 8px;
+        border: 1px dashed transparent;
+        border-radius: 8px;
+        background: transparent;
+        text-align: center;
+        transition: background .18s ease, border-color .18s ease;
+      }
+      .gift-box-drop.is-over {
+        border-color: var(--gold-dark);
+        background: rgba(255, 253, 248, .56);
+      }
+      .drop-hint {
+        padding: 5px 9px;
+        border: 1px solid rgba(120, 87, 45, .32);
+        border-radius: 3px;
+        background: rgba(255, 253, 248, .92);
+        color: var(--gold-dark);
+        font-size: clamp(8px, 1vw, 12px);
+        font-weight: 600;
+        pointer-events: none;
+      }
+      .box-items {
+        display: flex;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+        pointer-events: auto;
+      }
+      .box-item {
+        max-width: 100%;
+        overflow: hidden;
+        padding: 4px 7px;
+        border: 1px solid rgba(120, 87, 45, .32);
+        border-radius: 3px;
+        background: rgba(255, 253, 248, .94);
+        color: var(--ink);
+        font-size: clamp(8px, .85vw, 11px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .machine-total {
+        position: absolute;
+        z-index: 2;
+        top: 54.3%;
+        left: 9%;
+        width: 18%;
+        min-height: 7%;
+        display: grid;
+        place-items: center;
+        padding: 2px 5px;
+        overflow: hidden;
+        border: 1px solid rgba(120, 87, 45, .55);
+        border-radius: 5px;
+        background: rgba(255, 253, 248, .84);
+        color: var(--gold-dark);
+        font-family: var(--serif);
+        font-size: clamp(11px, 2.2vw, 27px);
+        line-height: 1;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        pointer-events: none;
+      }
+      .drag-ghost {
+        position: fixed;
+        z-index: 20;
+        border: 1px solid var(--gold-dark);
+        border-radius: 8px;
+        background-color: var(--cream-deep);
+        background-repeat: no-repeat;
+        box-shadow: 0 8px 26px rgba(52, 41, 30, .2);
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .drag-ghost::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 5px 7px;
+        background: rgba(255, 253, 248, .94);
+        color: var(--ink);
+        content: attr(data-label);
+        font-size: 9px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .interaction-status {
+        position: absolute;
+        z-index: 4;
+        bottom: 12px;
+        left: 12px;
+        max-width: 32%;
+        margin: 0;
+        padding: 6px 8px;
+        border: 1px solid rgba(120, 87, 45, .24);
+        background: rgba(255, 253, 248, .92);
+        color: var(--gold-dark);
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      .hero-add-to-cart {
+        position: absolute;
+        z-index: 4;
+        top: 91.5%;
+        left: 51%;
+        min-width: 16%;
+        min-height: 7%;
+        padding: 0 12px;
+        transform: translate(-50%, -50%);
+        border: 1px solid var(--gold-dark);
+        border-radius: 5px;
+        background: rgba(167, 124, 63, .94);
+        box-shadow: 0 3px 12px rgba(67, 47, 24, .24);
+        color: #fffaf0;
+        font-family: var(--serif);
+        font-size: clamp(10px, 1.4vw, 17px);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s ease, transform .2s ease;
+      }
+      .hero-add-to-cart:hover {
+        transform: translate(-50%, -53%);
+        background: var(--gold-dark);
+      }
+      .receipt-dialog {
+        width: min(440px, calc(100% - 32px));
+        max-height: min(80vh, 680px);
+        padding: 0;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        box-shadow: 0 24px 80px rgba(52, 41, 30, .25);
+      }
+      .receipt-dialog::backdrop { background: rgba(42, 32, 21, .5); backdrop-filter: blur(3px); }
+      .receipt-content { padding: 28px; }
+      .receipt-heading {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .receipt-heading h2 {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: 28px;
+        font-weight: 400;
+      }
+      .receipt-heading p { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+      .receipt-close {
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--ink);
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .receipt-items { display: grid; gap: 12px; padding: 18px 0; }
+      .receipt-row, .receipt-total {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 13px;
+      }
+      .receipt-row span:first-child { color: var(--muted); }
+      .receipt-total {
+        padding-top: 15px;
+        border-top: 1px solid var(--line);
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .receipt-thanks { margin: 18px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+      .receipt-done {
+        display: flex;
+        width: 100%;
+        min-height: 44px;
+        margin-top: 20px;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        background: var(--gold-dark);
+        color: var(--paper);
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .hero-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .hero-bottom p { margin: 0; }
+      .hero-cta { min-height: 46px; }
+      .arrow { font-size: 16px; line-height: 1; }
+
+      .site-footer {
+        padding: 34px 0 22px;
+        border-top: 1px solid var(--line);
+        background: var(--paper);
+      }
+      .footer-main {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr;
+        gap: 44px;
+        padding-bottom: 30px;
+      }
+      .footer-brand p {
+        max-width: 270px;
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .footer-title {
+        margin: 2px 0 14px;
+        color: var(--gold-dark);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+      .footer-links { display: grid; justify-items: start; gap: 10px; }
+      .footer-links a { font-size: 12px; }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .footer-bottom p { margin: 0; }
+
+      @media (max-width: 760px) {
+        .container { width: min(100% - 36px, 600px); }
+        .header-inner { min-height: 72px; grid-template-columns: 1fr auto; gap: 12px; }
+        .brand-symbol { width: 26px; height: 40px; background-size: 80px 80px; }
+        .brand-wordmark { width: 155px; height: 35px; background-size: 155px auto; }
+        .main-nav, .header-actions { display: none; }
+        .menu-toggle { display: grid; place-items: center; }
+        .mobile-nav {
+          padding: 0 18px 18px;
+          background: var(--paper);
+        }
+        .mobile-nav.is-open { display: grid; gap: 0; }
+        .mobile-nav a {
+          padding: 13px 0;
+          border-top: 1px solid var(--line);
+          color: var(--muted);
+          font-size: 14px;
+        }
+        .mobile-nav .mobile-shop {
+          margin-top: 10px;
+          padding: 13px 16px;
+          border: 0;
+          background: var(--gold-dark);
+          color: var(--paper);
+          text-align: center;
+        }
+        .hero { padding: 28px 0 24px; }
+        .hero-inner { gap: 20px; }
+        .hero-copy { text-align: center; padding: 0 4px; }
+        .eyebrow { font-size: 10px; margin-bottom: 8px; }
+        h1 { font-size: clamp(30px, 8.5vw, 42px); line-height: 1.18; margin-bottom: 10px; }
+        .hero-description { font-size: 13.5px; line-height: 1.6; max-width: 100%; margin-top: 0; }
+        .hero-media { width: 100%; aspect-ratio: 1024 / 725; }
+        .drop-hint { font-size: 8px; }
+        .box-item { font-size: 8px; }
+        .machine-total { font-size: clamp(10px, 3vw, 17px); }
+        .interaction-status { bottom: 6px; left: 6px; max-width: 31%; padding: 4px 5px; font-size: 8px; }
+        .hero-add-to-cart { top: 89%; min-width: 125px; min-height: 40px; font-family: var(--sans); font-size: 11px; }
+        .hero-bottom { align-items: center; text-align: center; flex-direction: column; gap: 14px; }
+        .footer-main { grid-template-columns: 1fr 1fr; gap: 28px 18px; }
+        .footer-brand { grid-column: 1 / -1; }
+      }
+      @media (max-width: 420px) {
+        .container { width: calc(100% - 28px); }
+        .hero { padding-top: 26px; }
+        .gift-box-drop { gap: 4px; padding: 4px; }
+        .drop-hint { padding: 3px 5px; font-size: 7px; }
+        .box-item { padding: 3px 4px; font-size: 7px; }
+        .footer-bottom { flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+      .is-jewelry-dragging, .is-jewelry-dragging * { cursor: grabbing !important; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#home" aria-label="Woven Jewels home">
+          <span class="brand-symbol" aria-hidden="true"></span>
+          <span class="brand-wordmark" aria-hidden="true"></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="./collections.html">Collections</a>
+          <a href="./our-story.html">Our Story</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <a class="cart-link" href="./order-summary.html" aria-label="Shopping bag, 0 items">
+            Bag <span class="cart-count" aria-hidden="true">0</span>
+          </a>
+          <a class="header-cta" href="./collections.html">Shop collection</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileNav">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+        <a href="./collections.html">Collections</a>
+        <a href="./our-story.html">Our Story</a>
+        <a href="#contact">Contact</a>
+        <a class="mobile-shop" href="./collections.html">Shop collection</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow">Handmade with heart</p>
+            <h1 id="hero-title">Jewelry woven with a little magic.</h1>
+            <p class="hero-description">Thoughtful details, warm tones, and one-of-a-kind pieces made to bring a little joy to every day.</p>
+          </div>
+          <div class="hero-media" id="collections" aria-label="Interactive Woven Jewels collection">
+            <img src="./woven-jewels-hero.jpeg" alt="Woven Jewels collection of handcrafted bracelets, earrings, and gift packaging">
+            <a class="view-collections-hotspot" href="./collections.html" aria-label="View all Woven Jewels collections" title="View All Collections"></a>
+            <button class="jewel-picker" type="button" data-id="ethereal-handchain" data-name="Ethereal Handchain" data-price="700" style="left: 4%; top: 4%; width: 10%; height: 15%;" aria-label="Ethereal Handchain, Rs. 700. Add to your gift box." title="Ethereal Handchain · Rs. 700"></button>
+            <button class="jewel-picker" type="button" data-id="beaded-bracelets" data-name="Beaded Bracelets (Set of 6)" data-price="600" style="left: 14%; top: 4%; width: 10%; height: 15%;" aria-label="Beaded Bracelets (Set of 6), Rs. 600. Add to your gift box." title="Beaded Bracelets (Set of 6) · Rs. 600"></button>
+            <button class="jewel-picker" type="button" data-id="moonlace-bracelets" data-name="Moonlace bracelets" data-price="400" style="left: 24%; top: 4%; width: 10%; height: 15%;" aria-label="Moonlace bracelets, Rs. 400. Add to your gift box." title="Moonlace bracelets · Rs. 400"></button>
+            <button class="jewel-picker" type="button" data-id="starfall-earrings" data-name="Starfall Earrings" data-price="300" style="left: 33%; top: 25%; width: 10%; height: 19%;" aria-label="Starfall Earrings, Rs. 300. Add to your gift box." title="Starfall Earrings · Rs. 300"></button>
+            <button class="jewel-picker" type="button" data-id="joyful-bloom-bracelet" data-name="Joyful Bloom Bracelet" data-price="700" style="left: 44%; top: 4%; width: 10%; height: 15%;" aria-label="Joyful Bloom Bracelet, Rs. 700. Add to your gift box." title="Joyful Bloom Bracelet · Rs. 700"></button>
+            <button class="jewel-picker" type="button" data-id="rainbow-bracelets" data-name="Rainbow bracelets" data-price="600" style="left: 54%; top: 4%; width: 11%; height: 15%;" aria-label="Rainbow bracelets, Rs. 600. Add to your gift box." title="Rainbow bracelets · Rs. 600"></button>
+            <button class="jewel-picker" type="button" data-id="blossom-bracelet" data-name="Blossom Bracelet" data-price="400" style="left: 65%; top: 4%; width: 13%; height: 15%;" aria-label="Blossom Bracelet, Rs. 400. Add to your gift box." title="Blossom Bracelet · Rs. 400"></button>
+            <button class="jewel-picker" type="button" data-id="pearle-bracelet" data-name="Pearle Bracelet" data-price="400" style="left: 78%; top: 4%; width: 11%; height: 15%;" aria-label="Pearle Bracelet, Rs. 400. Add to your gift box." title="Pearle Bracelet · Rs. 400"></button>
+            <button class="jewel-picker" type="button" data-id="lilac-bracelet" data-name="Lilac Bracelet" data-price="400" style="left: 89%; top: 4%; width: 11%; height: 15%;" aria-label="Lilac Bracelet, Rs. 400. Add to your gift box." title="Lilac Bracelet · Rs. 400"></button>
+            <button class="button hero-add-to-cart" id="addToCart" type="button">Add to cart</button>
+            <div class="machine-total" id="machineTotal" aria-label="Current gift box total" aria-live="polite" aria-atomic="true">Rs. 0.00</div>
+            <div class="gift-box-drop" id="giftBoxDrop" role="region" aria-label="Gift box. Drop jewelry here or select a piece to add it.">
+              <span class="drop-hint" id="dropHint">Drop pieces here</span>
+              <div class="box-items" id="boxContents" aria-live="polite"></div>
+            </div>
+            <p class="interaction-status" id="interactionStatus" role="status" aria-live="polite">Drag a piece into the gift box, or tap a piece to add it.</p>
+          </div>
+          <div class="hero-bottom">
+            <p>Handmade with care. Each piece adds to your gift-box total.</p>
+            <a class="hero-cta" href="./collections.html">View All Collections <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="container">
+        <div class="footer-main">
+          <div class="footer-brand" id="story">
+            <a class="brand" href="#home" aria-label="Woven Jewels — Artistry in Every Strand">
+              <span class="brand-symbol" aria-hidden="true"></span>
+              <span class="brand-wordmark" aria-hidden="true"></span>
+            </a>
+            <p>Handcrafted jewelry and thoughtful gifts, made with care and woven into your everyday.</p>
+          </div>
+          <div>
+            <h2 class="footer-title">Explore</h2>
+            <nav class="footer-links" aria-label="Footer navigation">
+              <a href="./collections.html">Shop all collections</a>
+              <a href="./our-story.html">Our story</a>
+              <a href="./admin.html">Admin sign-in</a>
+              <a href="#home">Back to top</a>
+            </nav>
+          </div>
+          <div>
+            <h2 class="footer-title">Get in touch</h2>
+            <div class="footer-links">
+              <a href="mailto:hello@wovenjewels.com">hello@wovenjewels.com</a>
+              <a href="#contact">Instagram</a>
+              <a href="#contact">Shipping &amp; returns</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© <span id="year"></span> Woven Jewels. Made with care.</p>
+          <p>Handmade, thoughtfully yours.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const menuToggle = document.querySelector("#menuToggle");
+      const mobileNav = document.querySelector("#mobileNav");
+      const heroMedia = document.querySelector(".hero-media");
+      const giftBoxDrop = document.querySelector("#giftBoxDrop");
+      const boxContents = document.querySelector("#boxContents");
+      const dropHint = document.querySelector("#dropHint");
+      const machineTotal = document.querySelector("#machineTotal");
+      const interactionStatus = document.querySelector("#interactionStatus");
+      const addToCart = document.querySelector("#addToCart");
+      const cartCount = document.querySelector(".cart-count");
+      const jewelryButtons = [...document.querySelectorAll(".jewel-picker")];
+
+      const giftBox = [];
+      const cartStorageKey = "woven-jewels-cart";
+      function readCart() {
+        const savedCart = localStorage.getItem(cartStorageKey);
+        if (!savedCart) return [];
+        try {
+          const parsed = JSON.parse(savedCart);
+          if (!Array.isArray(parsed) || parsed.some((item) =>
+            !item || typeof item.id !== "string" || typeof item.name !== "string" ||
+            !Number.isSafeInteger(item.price) || item.price < 0
+          )) {
+            throw new Error("Saved cart data is not a valid list of jewelry items.");
+          }
+          return parsed;
+        } catch (error) {
+          console.error("Could not read the saved Woven Jewels cart.", error);
+          localStorage.removeItem(cartStorageKey);
+          return [];
+        }
+      }
+
+      let cart = readCart();
+      let activeDrag = null;
+      let suppressProductClick = false;
+
+      function formatRupees(amount, decimals = 0) {
+        return `Rs. ${new Intl.NumberFormat("en-PK", {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        }).format(amount)}`;
+      }
+
+      function getProduct(button) {
+        const price = Number(button.dataset.price);
+        if (!button.dataset.id || !button.dataset.name || !Number.isSafeInteger(price) || price < 0) {
+          throw new Error("A jewelry item is missing a valid name, id, or price.");
+        }
+        return {
+          id: button.dataset.id,
+          name: button.dataset.name,
+          price
+        };
+      }
+
+      function updateGiftBox() {
+        boxContents.replaceChildren();
+        giftBox.forEach((product, index) => {
+          const item = document.createElement("button");
+          item.className = "box-item";
+          item.type = "button";
+          item.dataset.removeIndex = String(index);
+          item.textContent = `${product.name} · ${formatRupees(product.price)} ×`;
+          item.setAttribute("aria-label", `Remove ${product.name}, ${formatRupees(product.price)}, from gift box`);
+          boxContents.append(item);
+        });
+
+        const total = giftBox.reduce((sum, product) => sum + product.price, 0);
+        machineTotal.textContent = formatRupees(total, 2);
+        machineTotal.setAttribute("aria-label", `Current gift box total: ${formatRupees(total, 2)}`);
+        dropHint.textContent = giftBox.length ? "Your picks · tap an item to remove" : "Drop pieces here";
+      }
+
+      function addProduct(product) {
+        giftBox.push(product);
+        updateGiftBox();
+        interactionStatus.textContent = `${product.name} added. Gift box total: ${formatRupees(giftBox.reduce((sum, item) => sum + item.price, 0), 2)}.`;
+      }
+
+      jewelryButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          if (suppressProductClick) {
+            suppressProductClick = false;
+            event.preventDefault();
+            return;
+          }
+          addProduct(getProduct(button));
+        });
+
+        button.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0 || activeDrag) return;
+          event.preventDefault();
+
+          const product = getProduct(button);
+          const ghost = document.createElement("div");
+          ghost.className = "drag-ghost";
+          ghost.dataset.label = `${product.name} · ${formatRupees(product.price)}`;
+          const buttonBounds = button.getBoundingClientRect();
+          const imageBounds = heroMedia.getBoundingClientRect();
+          const scale = Math.min(1.5, 96 / buttonBounds.width);
+          ghost.style.width = `${buttonBounds.width * scale}px`;
+          ghost.style.height = `${buttonBounds.height * scale}px`;
+          ghost.style.backgroundImage = `url("${heroMedia.querySelector("img").currentSrc}")`;
+          ghost.style.backgroundSize = `${imageBounds.width * scale}px ${imageBounds.height * scale}px`;
+          ghost.style.backgroundPosition = `-${(buttonBounds.left - imageBounds.left) * scale}px -${(buttonBounds.top - imageBounds.top) * scale}px`;
+          document.body.append(ghost);
+
+          activeDrag = {
+            button,
+            product,
+            ghost,
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            moved: false
+          };
+          document.documentElement.classList.add("is-jewelry-dragging");
+          interactionStatus.textContent = `Dragging ${product.name} · ${formatRupees(product.price)}. Drop it in the gift box.`;
+          moveDrag(event);
+          document.addEventListener("pointermove", moveDrag);
+          document.addEventListener("pointerup", endDrag);
+          document.addEventListener("pointercancel", cancelDrag);
+        });
+      });
+
+      function isInsideGiftBox(x, y) {
+        const bounds = giftBoxDrop.getBoundingClientRect();
+        return x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom;
+      }
+
+      function moveDrag(event) {
+        if (!activeDrag || event.pointerId !== activeDrag.pointerId) return;
+        const drag = activeDrag;
+        if (Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) > 5) {
+          drag.moved = true;
+        }
+        drag.ghost.style.left = `${Math.min(event.clientX + 14, window.innerWidth - drag.ghost.offsetWidth - 8)}px`;
+        drag.ghost.style.top = `${Math.min(event.clientY + 14, window.innerHeight - drag.ghost.offsetHeight - 8)}px`;
+        giftBoxDrop.classList.toggle("is-over", isInsideGiftBox(event.clientX, event.clientY));
+      }
+
+      function finishDrag() {
+        if (!activeDrag) return null;
+        const drag = activeDrag;
+        activeDrag = null;
+        drag.ghost.remove();
+        giftBoxDrop.classList.remove("is-over");
+        document.documentElement.classList.remove("is-jewelry-dragging");
+        document.removeEventListener("pointermove", moveDrag);
+        document.removeEventListener("pointerup", endDrag);
+        document.removeEventListener("pointercancel", cancelDrag);
+        return drag;
+      }
+
+      function endDrag(event) {
+        if (!activeDrag || event.pointerId !== activeDrag.pointerId) return;
+        const droppedInside = isInsideGiftBox(event.clientX, event.clientY);
+        const drag = finishDrag();
+        if (!drag.moved) return;
+
+        suppressProductClick = true;
+        window.setTimeout(() => { suppressProductClick = false; }, 0);
+        if (droppedInside) {
+          addProduct(drag.product);
+        } else {
+          interactionStatus.textContent = "Drop your jewelry inside the gift box to add it.";
+        }
+      }
+
+      function cancelDrag(event) {
+        if (!activeDrag || event.pointerId !== activeDrag.pointerId) return;
+        finishDrag();
+        interactionStatus.textContent = "Drag cancelled. Try dropping a piece into the gift box.";
+      }
+
+      boxContents.addEventListener("click", (event) => {
+        const removeButton = event.target.closest("[data-remove-index]");
+        if (!removeButton) return;
+        const index = Number(removeButton.dataset.removeIndex);
+        if (!Number.isInteger(index) || index < 0 || index >= giftBox.length) return;
+        const [removed] = giftBox.splice(index, 1);
+        updateGiftBox();
+        interactionStatus.textContent = `${removed.name} removed from your gift box.`;
+      });
+
+      addToCart.addEventListener("click", () => {
+        if (giftBox.length === 0) {
+          interactionStatus.textContent = "Your gift box is empty. Add a jewelry piece before checking out.";
+          return;
+        }
+
+        const receipt = [...giftBox];
+        cart = [...cart, ...receipt];
+        localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+        window.location.href = "./order-summary.html";
+      });
+
+      cartCount.textContent = String(cart.length);
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = menuToggle.getAttribute("aria-expanded") !== "true";
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+        mobileNav.classList.toggle("is-open", isOpen);
+      });
+
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("is-open");
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open navigation");
+        });
+      });
+
+      document.querySelector("#year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

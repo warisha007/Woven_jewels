@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#e9ddc6">
+    <meta name="description" content="View product photos and details from the Woven Jewels collection.">
+    <title>Product Details — Woven Jewels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root { color-scheme: light; --paper: #fffdf8; --cream: #f5f0e5; --ink: #3e2a17; --muted: #776447; --gold: #8a6536; --line: rgba(91,67,38,.22); --serif: "Playfair Display",Georgia,serif; --sans: "DM Sans","Segoe UI",sans-serif; }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; margin: 0; background: #e9ddc6; color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+      .site-header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px max(16px, calc((100% - 940px) / 2)); background: rgba(255,250,240,.9); border-bottom: 1px solid var(--line); }
+      .brand { display: inline-flex; align-items: center; gap: 8px; }
+      .brand-symbol { display: block; width: 32px; height: 50px; flex: none; background: url("./woven-jewels-logo.jpeg") 50% 21% / 100px 100px no-repeat; mix-blend-mode: multiply; }
+      .brand-wordmark { display: block; width: 190px; height: 42px; flex: none; background: url("./woven-jewels-logo.jpeg") center 80% / 100% auto no-repeat; mix-blend-mode: multiply; }
+      .header-actions { display: flex; align-items: center; gap: 14px; color: var(--muted); font-size: 12px; }
+      .header-actions a:hover { color: var(--gold); }
+      .bag-link { padding: 8px 11px; border: 1px solid var(--line); background: rgba(255,255,255,.55); color: var(--ink); }
+      main { width: min(100%, 1120px); margin: 0 auto; padding: 12px 18px 34px; }
+      .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      .product-shell { position: relative; width: min(100%, 940px); aspect-ratio: 940 / 768; margin: 0 auto; overflow: hidden; }
+      .product-design { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; }
+      .gallery-main { position: absolute; z-index: 1; top: 14.45%; left: 34.1%; width: 30.6%; height: 36%; border-radius: 17px; background-color: var(--cream); background-repeat: no-repeat; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); pointer-events: none; }
+      .gallery-thumbnails { position: absolute; z-index: 2; top: 19.4%; left: 72.8%; width: 7.5%; height: 28%; display: grid; align-content: start; gap: 10px; overflow-y: auto; scrollbar-width: thin; }
+      .gallery-thumbnails[hidden], .gallery-indicators[hidden] { display: none; }
+      .gallery-thumbnail { width: 100%; aspect-ratio: 1; padding: 0; border: 2px solid rgba(255,250,240,.78); border-radius: 15px; background-color: var(--cream); background-repeat: no-repeat; cursor: pointer; }
+      .gallery-thumbnail[aria-pressed="true"] { border-color: #8b6732; box-shadow: 0 0 0 2px rgba(255,250,240,.8); }
+      .gallery-thumbnail:focus-visible, .add-button:focus-visible { outline: 3px solid #fffaf0; outline-offset: 3px; }
+      .gallery-indicators { position: absolute; z-index: 2; top: 50.8%; left: 45.7%; width: 8.6%; height: 2.4%; display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 12px; background: rgba(183,153,103,.95); }
+      .gallery-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.55); }
+      .gallery-dot.is-active { background: #fff; }
+      .product-info { position: absolute; z-index: 2; top: 55.2%; left: 26.5%; width: 30%; height: 10%; display: flex; flex-direction: column; justify-content: center; gap: 1px; padding: 4px 8px; border-radius: 3px; background: rgba(176,148,99,.96); color: #fffaf0; }
+      .product-info h2 { margin: 0; font-family: var(--serif); font-size: clamp(14px,2.1vw,22px); font-weight: 600; line-height: 1.12; }
+      .product-price { margin: 0; font-family: var(--serif); font-size: clamp(14px,1.8vw,19px); font-weight: 600; line-height: 1.15; }
+      .add-button { position: absolute; z-index: 3; top: 56%; left: 58%; width: 14%; height: 5.6%; display: grid; place-items: center; padding: 0 8px; border: 1px solid rgba(91,67,38,.32); border-radius: 30px; background: rgba(139,103,50,.97); box-shadow: 0 2px 6px rgba(67,47,24,.22); color: #fffaf0; font-family: var(--serif); font-size: clamp(11px,1.4vw,16px); font-weight: 700; cursor: pointer; }
+      .add-button:hover { background: #68491f; }
+      .description { position: absolute; z-index: 2; top: 71.2%; left: 24.5%; width: 56%; min-height: 18%; color: #fffaf0; font-family: var(--serif); font-size: clamp(12px,1.35vw,16px); line-height: 1.55; text-shadow: 0 1px 2px rgba(67,47,24,.35); }
+      .description-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+      .description p { margin: 0; white-space: pre-line; }
+      .status { min-height: 20px; margin: 8px auto 0; color: #694c2b; font-size: 12px; text-align: center; }
+      .not-found { width: min(940px,100%); margin: 20px auto; padding: 24px; border: 1px solid var(--line); background: rgba(255,250,240,.92); text-align: center; }
+      .not-found h2 { margin: 0; font-family: var(--serif); font-size: 24px; }
+      .not-found p { color: var(--muted); font-size: 13px; }
+      .not-found a { color: var(--gold); font-weight: 700; }
+      @media (max-width: 600px) {
+        .site-header { gap: 8px; padding-inline: 12px; }
+        .brand-symbol { width: 26px; height: 40px; background-size: 80px 80px; }
+        .brand-wordmark { width: 155px; height: 35px; background-size: 155px auto; }
+        .header-actions { gap: 8px; font-size: 10px; }
+        .bag-link { padding: 7px 8px; }
+        main { padding: 8px 10px 24px; }
+        .product-shell { width: 100%; aspect-ratio: auto; display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); background: var(--cream); }
+        .product-design { display: none; }
+        .gallery-main { position: relative; inset: auto; width: min(100%,360px); height: auto; aspect-ratio: 1; margin: 0 auto; border-radius: 14px; box-shadow: 0 3px 12px rgba(67,47,24,.15); }
+        .gallery-thumbnails { position: relative; inset: auto; width: 100%; height: auto; display: flex; flex-direction: row; justify-content: center; gap: 10px; overflow: visible; }
+        .gallery-thumbnail { width: 64px; max-width: 21vw; flex: none; border-radius: 10px; }
+        .gallery-indicators { display: none; }
+        .product-info { position: static; width: 100%; height: auto; min-height: 68px; padding: 10px 12px; border-radius: 4px; }
+        .product-info h2 { font-size: 19px; }
+        .product-price { font-size: 16px; }
+        .add-button { position: static; width: 100%; height: auto; min-height: 44px; border-radius: 24px; font-family: var(--sans); font-size: 13px; }
+        .description { position: static; width: 100%; min-height: 76px; padding: 10px 12px; border-top: 1px solid var(--line); color: var(--ink); font-family: var(--sans); font-size: 13px; text-shadow: none; }
+        .description-heading { position: static; width: auto; height: auto; margin: 0 0 6px; overflow: visible; clip: auto; font-family: var(--serif); font-size: 18px; font-weight: 600; white-space: normal; }
+        .description p { color: var(--muted); }
+      }
+      @media (max-width: 380px) {
+        .brand-symbol { width: 22px; height: 34px; background-size: 68px 68px; }
+        .brand-wordmark { width: 118px; height: 26px; background-size: 118px auto; }
+      }
+      @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Woven Jewels home"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-wordmark" aria-hidden="true"></span></a>
+      <nav class="header-actions" aria-label="Product navigation">
+        <a href="./collections.html">← Back to collection</a>
+        <a class="bag-link" href="./order-summary.html">View order (<span id="bagCount">0</span>)</a>
+      </nav>
+    </header>
+    <main>
+      <h1 class="visually-hidden">Product details</h1>
+      <section class="product-shell" id="productShell" aria-labelledby="productName">
+        <img class="product-design" src="./product-details-reference.png" alt="">
+        <div class="gallery-main" id="galleryMain" role="img"></div>
+        <div class="gallery-thumbnails" id="galleryThumbnails" role="group" aria-label="Product images"></div>
+        <div class="gallery-indicators" id="galleryIndicators" aria-hidden="true"></div>
+        <div class="product-info">
+          <h2 id="productName"></h2>
+          <p class="product-price" id="productPrice"></p>
+        </div>
+        <button class="add-button" id="addButton" type="button">Add To Cart</button>
+        <section class="description" aria-labelledby="descriptionTitle">
+          <h2 class="description-heading" id="descriptionTitle">Description:</h2>
+          <p id="productDescription"></p>
+        </section>
+      </section>
+      <section class="not-found" id="notFound" hidden>
+        <h2>Product not found</h2>
+        <p>Choose a product from the collection to see its details.</p>
+        <a href="./collections.html">Back to collection</a>
+      </section>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </main>
+    <script>
+      const CART_KEY = "woven-jewels-cart";
+      const collectionPositions = {
+        "ethereal-handchain": [0, 0],
+        "moonlace-bracelets": [1, 0],
+        "rainbow-bracelets": [2, 0],
+        "joyful-bloom-bracelet": [0, 1],
+        "starfall-earrings": [1, 1],
+        "lilac-bracelet": [2, 1],
+        "pearle-bracelet": [0, 2],
+        "beaded-bracelets": [1, 2],
+        "blossom-bracelet": [2, 2]
+      };
+      const products = new Map([
+        ["ethereal-handchain", { name: "Ethereal Handchain", price: 700, description: "Materials: Delicate gold-tone chain, crystal accents and floral detailing.\nA graceful handchain featuring a delicate bracelet and finger ring, designed to add an elegant touch to every occasion. Handmade with love, just for you.", images: [{ type: "asset", src: "ethereal-handchain-1.jpeg", label: "On hand" }, { type: "asset", src: "ethereal-handchain-2.jpeg", label: "Bracelet detail" }] }],
+        ["moonlace-bracelets", { name: "Moonlace bracelets", price: 400, description: "Materials: Silver-tone chain, delicate metallic beads and charms.\nDainty layered bracelets with a subtle sparkle, perfect for everyday elegance. Carefully handcrafted with love.", images: [{ type: "asset", src: "moonlace-1.jpeg", label: "Layered bracelets" }, { type: "asset", src: "moonlace-2.jpeg", label: "Bracelet on hand" }] }],
+        ["rainbow-bracelets", { name: "Rainbow bracelets", price: 600, description: "Materials: Multicolored gemstone-style beads, pearl accents and gold-tone details.\nA beautiful blend of vibrant colors and delicate pearls, bringing a little joy to your wrist. Handmade with love.", images: [{ type: "asset", src: "rainbow-bracelets.jpeg", label: "Rainbow bracelets" }, { type: "asset", src: "rainbow-bracelets-2.jfif", label: "Rainbow bracelets detail" }] }],
+        ["joyful-bloom-bracelet", { name: "Joyful Bloom Bracelet", price: 700, description: "Materials: Colorful floral beads, pearl accents and gold-tone charms.\nA playful floral-inspired bracelet bursting with color and charm. Each detail is thoughtfully handmade with love.", images: [{ type: "asset", src: "joyful-bloom-1.jpeg", label: "Bracelet on hand" }, { type: "asset", src: "joyful-bloom-2.jpeg", label: "Bracelet detail" }] }],
+        ["starfall-earrings", { name: "Starfall Earrings", price: 300, description: "Materials: Gold-tone metallic beads and pearl accents.\nElegant cascading earrings with a delicate golden shimmer, made to make every moment feel special. Handcrafted with love.", images: [{ type: "asset", src: "starfall-earrings.jpeg", label: "Starfall earrings" }, { type: "asset", src: "starfall-earrings-2.jfif", label: "Starfall earrings detail" }] }],
+        ["lilac-bracelet", { name: "Lilac Bracelet", price: 400, description: "Materials: Lavender beads, gold-tone accents and decorative charms.\nSoft lilac hues meet delicate golden details in this dreamy bracelet. A little piece of elegance, handmade with love.", images: [{ type: "asset", src: "lilac-bracelet.jpeg", label: "Lilac bracelet" }, { type: "asset", src: "lilac-bracelet-2.jfif", label: "Lilac bracelet detail" }] }],
+        ["pearle-bracelet", { name: "Pearle Bracelet", price: 400, description: "Materials: Pearl beads, gold-tone spacer beads and a decorative charm.\nA timeless pearl bracelet that brings effortless elegance to your everyday look. Carefully handmade with love.", images: [{ type: "asset", src: "pearle-bracelet-1.jpeg", label: "Pearle bracelet" }, { type: "asset", src: "pearle-bracelet-2.jfif", label: "Pearle bracelet detail" }] }],
+        ["beaded-bracelets", { name: "Beaded Bracelets (Set of 6)", price: 600, description: "Materials: Multicolored glass-style beads, decorative accents and elastic cord.\nA colorful collection of stackable bracelets, perfect for mixing, matching and expressing your style. Each piece handmade with love.", images: [{ type: "asset", src: "beaded-bracelets.jpeg", label: "Beaded bracelet set" }, { type: "asset", src: "beaded-bracelets-2.jfif", label: "Beaded bracelet detail" }] }],
+        ["blossom-bracelet", { name: "Blossom Bracelet", price: 400, description: "Materials: Pink beads, pearl accents, gold-tone details and floral charms.\nInspired by the beauty of blooming flowers, this delicate pink bracelet adds a sweet, feminine touch. Handmade with love.", images: [{ type: "asset", src: "blossom-bracelet.jpeg", label: "Blossom bracelet" }, { type: "asset", src: "blossom-bracelet-2.jfif", label: "Blossom bracelet detail" }] }]
+      ]);
+      const productId = new URLSearchParams(window.location.search).get("id");
+      const product = products.get(productId);
+      const productShell = document.querySelector("#productShell");
+      const notFound = document.querySelector("#notFound");
+      const galleryMain = document.querySelector("#galleryMain");
+      const galleryThumbnails = document.querySelector("#galleryThumbnails");
+      const galleryIndicators = document.querySelector("#galleryIndicators");
+      const status = document.querySelector("#status");
+      const bagCount = document.querySelector("#bagCount");
+      let cart = readCart();
+      let activeImageIndex = 0;
+
+      function readCart() {
+        const saved = localStorage.getItem(CART_KEY);
+        if (!saved) return [];
+        try {
+          const parsed = JSON.parse(saved);
+          if (!Array.isArray(parsed) || parsed.some((item) =>
+            !item || typeof item.id !== "string" || typeof item.name !== "string" ||
+            !Number.isSafeInteger(item.price) || item.price < 0
+          )) throw new Error("Saved cart data is invalid.");
+          return parsed;
+        } catch (error) {
+          console.error("Could not read the saved Woven Jewels cart.", error);
+          localStorage.removeItem(CART_KEY);
+          return [];
+        }
+      }
+
+      function getImageStyle(image) {
+        if (image.type === "asset") {
+          return {
+            backgroundImage: `url("./${image.src}")`,
+            backgroundSize: "contain",
+            backgroundPosition: "center"
+          };
+        }
+        if (image.type === "detail") {
+          return {
+            backgroundImage: 'url("./product-details-reference.png")',
+            backgroundSize: "329% 279%",
+            backgroundPosition: "49% 23%"
+          };
+        }
+        const [column, row] = collectionPositions[productId];
+        return {
+          backgroundImage: 'url("./collection-reference.png")',
+          backgroundSize: "800% 600%",
+          backgroundPosition: `${19.5 + column * 26}% ${15 + row * 34.5}%`
+        };
+      }
+
+      function applyImageStyle(element, image) {
+        const style = getImageStyle(image);
+        element.style.backgroundImage = style.backgroundImage;
+        element.style.backgroundSize = style.backgroundSize;
+        element.style.backgroundPosition = style.backgroundPosition;
+      }
+
+      function renderGallery() {
+        const activeImage = product.images[activeImageIndex];
+        applyImageStyle(galleryMain, activeImage);
+        galleryMain.setAttribute("aria-label", `${product.name}: ${activeImage.label}`);
+        const hasMultipleImages = product.images.length > 1;
+        galleryThumbnails.hidden = !hasMultipleImages;
+        galleryIndicators.hidden = !hasMultipleImages;
+        galleryThumbnails.replaceChildren();
+        galleryIndicators.replaceChildren();
+        if (!hasMultipleImages) return;
+
+        product.images.forEach((image, index) => {
+          const thumbnail = document.createElement("button");
+          thumbnail.className = "gallery-thumbnail";
+          thumbnail.type = "button";
+          thumbnail.setAttribute("aria-label", `View ${image.label} of ${product.name}`);
+          thumbnail.setAttribute("aria-pressed", String(index === activeImageIndex));
+          applyImageStyle(thumbnail, image);
+          thumbnail.addEventListener("click", () => {
+            activeImageIndex = index;
+            renderGallery();
+          });
+          galleryThumbnails.append(thumbnail);
+
+          const dot = document.createElement("span");
+          dot.className = index === activeImageIndex ? "gallery-dot is-active" : "gallery-dot";
+          galleryIndicators.append(dot);
+        });
+      }
+
+      function updateBagCount() {
+        bagCount.textContent = String(cart.length);
+      }
+
+      updateBagCount();
+
+      if (!product) {
+        document.querySelector("#productShell").hidden = true;
+        notFound.hidden = false;
+        document.title = "Product not found — Woven Jewels";
+      } else {
+        document.title = `${product.name} — Woven Jewels`;
+        document.querySelector("#productName").textContent = product.name;
+        document.querySelector("#productPrice").textContent = `Rs. ${product.price}`;
+        document.querySelector("#productDescription").textContent = product.description;
+        renderGallery();
+
+        document.querySelector("#addButton").addEventListener("click", () => {
+          cart = [...cart, { id: productId, name: product.name, price: product.price }];
+          localStorage.setItem(CART_KEY, JSON.stringify(cart));
+          updateBagCount();
+          status.textContent = `${product.name} added to your order · Rs. ${product.price}.`;
+        });
+      }
+    </script>
+  </body>
+</html>

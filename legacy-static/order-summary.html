@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#e9ddc6">
+    <meta name="description" content="Review the pieces in your Woven Jewels order.">
+    <title>Order Summary — Woven Jewels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root { color-scheme: light; --paper: #fffdf8; --cream: #f5f0e5; --ink: #3e2a17; --muted: #776447; --gold: #8a6536; --line: rgba(91,67,38,.22); --serif: "Playfair Display",Georgia,serif; --sans: "DM Sans","Segoe UI",sans-serif; }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; margin: 0; background: #e9ddc6; color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+      .site-header { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px max(16px, calc((100% - 940px) / 2)); background: rgba(255,250,240,.86); border-bottom: 1px solid var(--line); }
+      .brand { display: inline-flex; align-items: center; gap: 8px; }
+      .brand-symbol { display: block; width: 32px; height: 50px; flex: none; background: url("./woven-jewels-logo.jpeg") 50% 21% / 100px 100px no-repeat; mix-blend-mode: multiply; }
+      .brand-wordmark { display: block; width: 190px; height: 42px; flex: none; background: url("./woven-jewels-logo.jpeg") center 80% / 100% auto no-repeat; mix-blend-mode: multiply; }
+      .back-link { color: var(--muted); font-size: 12px; }
+      main { width: min(100%, 1120px); margin: 0 auto; padding: 12px 18px 34px; }
+      .heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+      .summary-shell { position: relative; width: min(100%, 940px); aspect-ratio: 940 / 768; margin: 0 auto; }
+      .summary-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+      .items { position: absolute; top: 23.5%; left: 31%; width: 43%; height: 50%; display: flex; flex-direction: column; align-content: start; gap: 8px; overflow-y: auto; padding: 12px; border: 1px solid rgba(91,67,38,.25); background: rgba(245,240,229,.98); box-shadow: 0 4px 18px rgba(67,47,24,.16); scrollbar-color: rgba(91,67,38,.45) transparent; scrollbar-width: thin; }
+      .item { min-height: 76px; display: grid; grid-template-columns: 52px minmax(0,1fr) auto; align-items: center; gap: 8px; padding: 7px; border: 1px solid rgba(91,67,38,.16); background: var(--paper); color: #382714; }
+      .item-thumb { width: 52px; height: 52px; border: 1px solid rgba(91,67,38,.2); background-color: #eee5d6; background-image: url("./woven-jewels-hero.jpeg"); background-repeat: no-repeat; background-size: 500% 500%; }
+      .item-details { display: grid; gap: 2px; min-width: 0; }
+      .item-name { overflow: hidden; font-family: var(--serif); font-size: clamp(11px,1.25vw,15px); font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .item-meta { color: var(--muted); font-size: clamp(10px,1vw,12px); line-height: 1.3; }
+      .item-price { font-size: clamp(10px,1.05vw,13px); font-weight: 700; white-space: nowrap; }
+      .item-actions { display: grid; justify-items: end; gap: 2px; }
+      .quantity { display: flex; align-items: center; gap: 5px; font-size: 10px; }
+      .quantity button, .remove { min-width: 19px; height: 19px; padding: 0 4px; border: 1px solid rgba(75,46,22,.45); background: rgba(255,250,240,.8); color: #4a321d; cursor: pointer; }
+      .quantity button:hover, .remove:hover { background: white; }
+      .remove { min-height: 24px; padding: 3px 8px; border: 1px solid rgba(140,54,40,.35); border-radius: 4px; background: #fff2ec; color: #8c3628; font-family: var(--sans); font-size: clamp(10px,1vw,12px); font-weight: 600; white-space: nowrap; }
+      .remove:hover { border-color: #8c3628; background: #f9dfd4; }
+      .remove:focus-visible { outline: 2px solid #8c3628; outline-offset: 2px; }
+      .empty-hint { display: none; position: absolute; top: 44%; left: 33%; width: 39%; color: #4b321c; font-family: var(--serif); font-size: clamp(10px,1.2vw,14px); text-align: center; }
+      .empty-hint.is-visible { display: block; }
+      .totals { position: absolute; left: 27%; top: 78.5%; width: 31%; display: grid; gap: 2px; padding: 7px 10px; border: 1px solid rgba(91,67,38,.16); background: rgba(245,240,229,.98); box-shadow: 0 2px 8px rgba(67,47,24,.12); color: #493219; font-family: var(--sans); font-size: clamp(11px,1.25vw,14px); font-weight: 600; line-height: 1.25; }
+      .total-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+      .total-row span { white-space: nowrap; }
+      .total-row span:last-child { font-variant-numeric: tabular-nums; }
+      .order-button { position: absolute; top: 83.3%; left: 61.5%; width: 12%; height: 5.2%; display: grid; place-items: center; border: 1px solid rgba(91,67,38,.35); border-radius: 5px; background: rgba(139,103,50,.94); box-shadow: inset 0 1px 5px rgba(255,245,220,.45),0 2px 6px rgba(67,47,24,.2); color: #fff9eb; font-family: var(--serif); font-size: clamp(9px,1.15vw,13px); font-weight: 700; text-align: center; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+      .order-button:hover { transform: translateY(-2px); background: #68491f; }
+      .order-button:disabled { opacity: .48; cursor: not-allowed; transform: none; }
+      .status { width: min(940px,100%); margin: 10px auto 0; color: #694c2b; font-size: 11px; text-align: center; }
+      .empty-state { display: none; width: min(940px,100%); margin: 12px auto; padding: 22px; border: 1px solid var(--line); background: rgba(255,250,240,.95); text-align: center; }
+      .empty-state.is-visible { display: block; }
+      .empty-state h2 { margin: 0; font-family: var(--serif); font-size: 25px; font-weight: 500; }
+      .empty-state p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .action-link { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 17px; border: 1px solid #68491f; background: #79562c; color: #fff9eb; font-size: 12px; font-weight: 700; cursor: pointer; }
+      .action-link:hover { background: #563b20; }
+      @media (min-width: 601px) and (max-width: 700px) {
+        .items { left: 27.5%; width: 49%; padding: 8px; }
+        .item { grid-template-columns: 48px minmax(0,1fr) auto; gap: 6px; padding: 6px; }
+        .item-thumb { width: 48px; height: 48px; }
+        .remove { padding: 3px 5px; font-size: 9px; }
+      }
+      @media (max-width: 600px) {
+        .brand-symbol { width: 26px; height: 40px; background-size: 80px 80px; }
+        .brand-wordmark { width: 155px; height: 35px; background-size: 155px auto; }
+        main { padding: 8px 10px 24px; }
+        .heading { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; color: var(--ink); font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: 1.15; text-align: center; }
+        .summary-shell { width: 100%; aspect-ratio: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px 12px; border: 1px solid var(--line); background: rgba(255,250,240,.9); box-shadow: 0 3px 12px rgba(67,47,24,.08); }
+        .summary-image { display: none; }
+        .items { position: relative; inset: auto; width: 100%; height: auto; max-height: none; display: flex; gap: 8px; overflow: visible; padding: 0; border: 0; background: transparent; box-shadow: none; }
+        .item { min-height: 0; grid-template-columns: minmax(0,1fr) auto; gap: 6px 12px; padding: 12px; border: 1px solid rgba(91,67,38,.2); background: var(--paper); }
+        .item-thumb { width: 54px; height: 54px; grid-row: span 2; }
+        .item { grid-template-columns: 54px minmax(0,1fr) auto; }
+        .item-name { font-size: 13px; }
+        .item-meta, .item-price { font-size: 11px; }
+        .item-actions { gap: 5px; }
+        .quantity { gap: 5px; font-size: 10px; }
+        .quantity button { min-width: 24px; height: 24px; font-size: 13px; }
+        .remove { min-height: 28px; font-size: 10px; }
+        .totals { position: relative; inset: auto; width: 100%; gap: 6px; padding: 12px; border: 1px solid var(--line); background: var(--cream); font-family: var(--sans); font-size: 12px; }
+        .order-button { position: relative; inset: auto; width: 100%; min-height: 44px; font-family: var(--sans); font-size: 13px; }
+        .empty-hint { display: none !important; }
+        .empty-state { margin: 12px auto; }
+      }
+      @media (max-width: 380px) {
+        .site-header { padding-inline: 12px; }
+        .brand-symbol { width: 22px; height: 34px; background-size: 68px 68px; }
+        .brand-wordmark { width: 118px; height: 26px; background-size: 118px auto; }
+        .back-link { font-size: 10px; }
+        .item { grid-template-columns: 44px minmax(0,1fr) auto; gap: 6px; padding: 8px; }
+        .item-thumb { width: 44px; height: 44px; }
+        .remove { padding-inline: 5px; font-size: 9px; }
+        .totals { font-size: 11px; }
+      }
+      @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Woven Jewels home"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-wordmark" aria-hidden="true"></span></a>
+      <a class="back-link" href="./index.html#collections">← Back to collection</a>
+    </header>
+    <main>
+      <h1 class="heading">Order summary</h1>
+      <section class="summary-shell" aria-label="Your order summary">
+        <img class="summary-image" src="./order-summary-reference.png" alt="Order summary on parchment listing product name, quantity, item price, subtotal, shipping, total, and order button">
+        <div class="items" id="items" aria-live="polite"></div>
+        <p class="empty-hint" id="emptyHint">Your gift box is empty.<br>Choose some handmade pieces to get started.</p>
+        <div class="totals" aria-live="polite">
+          <div class="total-row"><span>Subtotal:</span><span id="subtotal">Rs. 0</span></div>
+          <div class="total-row"><span>Discount:</span><span id="discount">Rs. 0</span></div>
+          <div class="total-row"><span>Shipping:</span><span id="shipping">Free</span></div>
+          <div class="total-row"><span>Total:</span><span id="total">Rs. 0</span></div>
+        </div>
+        <button class="order-button" id="orderButton" type="button">ORDER!</button>
+      </section>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <section class="empty-state" id="emptyState">
+        <h2>Nothing in your order yet</h2>
+        <p>Browse the collection and add some handmade pieces to your bag.</p>
+        <a class="action-link" href="./collections.html">View all collections</a>
+      </section>
+    </main>
+    <script>
+      const CART_KEY = "woven-jewels-cart";
+      const cart = readCart();
+      const items = document.querySelector("#items");
+      const emptyHint = document.querySelector("#emptyHint");
+      const emptyState = document.querySelector("#emptyState");
+      const orderButton = document.querySelector("#orderButton");
+      const status = document.querySelector("#status");
+
+      function readCart() {
+        const saved = localStorage.getItem(CART_KEY);
+        if (!saved) return [];
+        try {
+          const parsed = JSON.parse(saved);
+          if (!Array.isArray(parsed) || parsed.some((item) =>
+            !item || typeof item.id !== "string" || typeof item.name !== "string" ||
+            !Number.isSafeInteger(item.price) || item.price < 0
+          )) throw new Error("Saved cart data is invalid.");
+          return parsed;
+        } catch (error) {
+          console.error("Could not read the saved Woven Jewels cart.", error);
+          localStorage.removeItem(CART_KEY);
+          return [];
+        }
+      }
+
+      function formatRupees(amount) {
+        return `Rs. ${new Intl.NumberFormat("en-PK", { maximumFractionDigits: 0 }).format(amount)}`;
+      }
+
+      const productImageCenters = {
+        "gold-bracelet": [0.09, 0.11],
+        "rainbow-bracelet": [0.19, 0.11],
+        "garden-bracelet": [0.595, 0.11],
+        "amethyst-bracelet": [0.945, 0.11],
+        "gold-chain-earrings": [0.38, 0.35],
+        "amber-earrings": [0.485, 0.385],
+        "pearl-drop-earrings": [0.71, 0.305],
+        "grape-earrings": [0.085, 0.44],
+        "gemstone-bracelet": [0.29, 0.11],
+        "onyx-bracelet": [0.39, 0.11],
+        "citrine-bracelet": [0.49, 0.11],
+        "rose-bracelet": [0.715, 0.11],
+        "pearl-bracelet": [0.835, 0.11],
+        "gold-pendant": [0.19, 0.355],
+        "leaf-earrings": [0.285, 0.355],
+        "flower-earrings": [0.59, 0.355],
+        "amber-statement-earrings": [0.83, 0.36],
+        "black-bead-hoops": [0.945, 0.345]
+      };
+      const collectionImagePositions = {
+        "ethereal-handchain": [0, 0],
+        "moonlace-bracelets": [1, 0],
+        "rainbow-bracelets": [2, 0],
+        "joyful-bloom-bracelet": [0, 1],
+        "starfall-earrings": [1, 1],
+        "lilac-bracelet": [2, 1],
+        "pearle-bracelet": [0, 2],
+        "beaded-bracelets": [1, 2],
+        "blossom-bracelet": [2, 2]
+      };
+
+      function render() {
+        items.replaceChildren();
+        const grouped = new Map();
+        cart.forEach((product) => {
+          const key = `${product.id}:${product.price}`;
+          const current = grouped.get(key);
+          if (current) current.quantity += 1;
+          else grouped.set(key, { ...product, quantity: 1 });
+        });
+
+        grouped.forEach((product, key) => {
+          const row = document.createElement("article");
+          row.className = "item";
+          const details = document.createElement("div");
+          details.className = "item-details";
+          const image = document.createElement("div");
+          image.className = "item-thumb";
+          image.setAttribute("role", "img");
+          image.setAttribute("aria-label", product.name);
+          const collectionPosition = collectionImagePositions[product.id];
+          if (collectionPosition) {
+            image.style.backgroundImage = 'url("./collection-reference.png")';
+            image.style.backgroundSize = "400% 400%";
+            image.style.backgroundPosition = `${17 + collectionPosition[0] * 33}% ${12 + collectionPosition[1] * 38}%`;
+          } else {
+            const [centerX, centerY] = productImageCenters[product.id] || [0.5, 0.5];
+            const backgroundX = Math.max(0, Math.min(100, ((centerX - 0.1) / 0.8) * 100));
+            const backgroundY = Math.max(0, Math.min(100, ((centerY - 0.1) / 0.8) * 100));
+            image.style.backgroundPosition = `${backgroundX}% ${backgroundY}%`;
+          }
+          const name = document.createElement("span");
+          name.className = "item-name";
+          name.textContent = product.name;
+          const quantity = document.createElement("span");
+          quantity.className = "item-meta";
+          quantity.textContent = `Quantity: ${product.quantity} · ${formatRupees(product.price)} each`;
+          const price = document.createElement("span");
+          price.className = "item-price";
+          price.textContent = formatRupees(product.price * product.quantity);
+          details.append(name, quantity);
+
+          const actions = document.createElement("div");
+          actions.className = "item-actions";
+          actions.append(price);
+          const quantityControls = document.createElement("div");
+          quantityControls.className = "quantity";
+          const decrease = document.createElement("button");
+          decrease.type = "button";
+          decrease.dataset.action = "decrease";
+          decrease.dataset.key = key;
+          decrease.textContent = "−";
+          decrease.setAttribute("aria-label", `Remove one ${product.name}`);
+          const quantityValue = document.createElement("span");
+          quantityValue.textContent = String(product.quantity);
+          const increase = document.createElement("button");
+          increase.type = "button";
+          increase.dataset.action = "increase";
+          increase.dataset.key = key;
+          increase.textContent = "+";
+          increase.setAttribute("aria-label", `Add one ${product.name}`);
+          quantityControls.append(decrease, quantityValue, increase);
+          const remove = document.createElement("button");
+          remove.className = "remove";
+          remove.type = "button";
+          remove.dataset.action = "remove";
+          remove.dataset.key = key;
+          remove.textContent = "Remove item";
+          remove.setAttribute("aria-label", `Remove ${product.name} from order`);
+          actions.append(quantityControls, remove);
+          row.append(image, details, actions);
+          items.append(row);
+        });
+
+        const subtotal = cart.reduce((sum, product) => sum + product.price, 0);
+        document.querySelector("#subtotal").textContent = formatRupees(subtotal);
+        document.querySelector("#discount").textContent = formatRupees(0);
+        document.querySelector("#shipping").textContent = subtotal ? "Rs. 200" : formatRupees(0);
+        document.querySelector("#total").textContent = formatRupees(subtotal + (subtotal ? 200 : 0));
+        const hasItems = cart.length > 0;
+        orderButton.disabled = !hasItems;
+        emptyHint.classList.toggle("is-visible", !hasItems);
+        emptyState.classList.toggle("is-visible", !hasItems);
+      }
+
+      items.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const [id, priceValue] = button.dataset.key.split(":");
+        const price = Number(priceValue);
+        const index = cart.findIndex((product) => product.id === id && product.price === price);
+        if (index < 0) return;
+        if (button.dataset.action === "remove") {
+          for (let cursor = cart.length - 1; cursor >= 0; cursor -= 1) {
+            if (cart[cursor].id === id && cart[cursor].price === price) cart.splice(cursor, 1);
+          }
+          status.textContent = `${button.getAttribute("aria-label").replace("Remove ", "").replace(" from order", "")} removed from your order.`;
+        } else if (button.dataset.action === "decrease") {
+          cart.splice(index, 1);
+          status.textContent = "Item quantity decreased.";
+        } else if (button.dataset.action === "increase") {
+          cart.push({ ...cart[index] });
+          status.textContent = "Item quantity increased.";
+        }
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        render();
+      });
+
+      orderButton.addEventListener("click", () => {
+        if (!cart.length) {
+          status.textContent = "Your order is empty. Add a piece from the collection first.";
+          render();
+          return;
+        }
+        window.location.href = "./checkout.html";
+      });
+
+      render();
+    </script>
+  </body>
+</html>

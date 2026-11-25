@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e5">
+    <meta name="description" content="Manage Woven Jewels orders, payment approvals, and sales totals.">
+    <title>Woven Jewels Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./workflow.css">
+    <link rel="stylesheet" href="./admin-dashboard.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Woven Jewels home">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-wordmark" aria-hidden="true"></span>
+      </a>
+      <a class="back-link" href="./index.html">← Storefront</a>
+    </header>
+    <main class="page-shell">
+      <p class="eyebrow">Woven Jewels · internal</p>
+      <div class="dashboard-heading">
+        <div>
+          <h1>Admin dashboard</h1>
+          <p class="intro">Track incoming orders, review payments, and manage fulfillment.</p>
+        </div>
+        <div class="dashboard-actions" id="dashboardActions" hidden>
+          <button class="secondary-button" id="refreshOrders" type="button">Refresh orders</button>
+          <button class="secondary-button" id="signOut" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <p class="status-message" id="adminStatus" role="status" aria-live="polite"></p>
+
+      <section class="panel login-panel" id="loginPanel" aria-labelledby="loginTitle">
+        <h2 id="loginTitle">Admin sign-in</h2>
+        <p>Sign in with your authorized Woven Jewels admin account.</p>
+        <form id="loginForm">
+          <label for="adminEmail">Admin email</label>
+          <input id="adminEmail" name="adminEmail" type="email" autocomplete="email" required>
+          <label for="adminPassword">Password</label>
+          <input id="adminPassword" name="adminPassword" type="password" autocomplete="current-password" required>
+          <button class="primary-button" id="signIn" type="submit">Sign in</button>
+        </form>
+      </section>
+
+      <section id="dashboard" hidden aria-labelledby="ordersTitle">
+        <div class="dashboard-metrics" id="dashboardMetrics" aria-live="polite">
+          <article class="metric-card"><span>All orders</span><strong id="metricAll">0</strong><small>Every request received</small></article>
+          <article class="metric-card"><span>Needs review</span><strong id="metricReview">0</strong><small>Payment proofs waiting</small></article>
+          <article class="metric-card"><span>Accepted orders</span><strong id="metricAccepted">0</strong><small>Ready for fulfillment</small></article>
+          <article class="metric-card"><span>Advance to review</span><strong id="metricAdvance">Rs. 0</strong><small>Pending payment proofs</small></article>
+          <article class="metric-card"><span>Order value</span><strong id="metricValue">Rs. 0</strong><small>All submitted requests</small></article>
+          <article class="metric-card"><span>Accepted sales</span><strong id="metricSales">Rs. 0</strong><small>Accepted orders only</small></article>
+          <article class="metric-card"><span>COD to collect</span><strong id="metricCod">Rs. 0</strong><small>Accepted order balances</small></article>
+        </div>
+        <div class="list-heading">
+          <h2 id="ordersTitle">Orders</h2>
+          <p id="orderCount" class="list-count"></p>
+        </div>
+        <div class="order-tools">
+          <label class="search-control" for="orderSearch">
+            <span>Search orders</span>
+            <input id="orderSearch" type="search" placeholder="Order ID, customer, email, phone…">
+          </label>
+          <label class="filter-control" for="orderFilter">
+            <span>Show</span>
+            <select id="orderFilter">
+              <option value="all">All orders</option>
+              <option value="needs-review">Needs payment review</option>
+              <option value="awaiting-proof">Awaiting screenshot</option>
+              <option value="accepted">Accepted</option>
+            </select>
+          </label>
+          <button class="secondary-button" id="exportOrders" type="button">Export visible CSV</button>
+        </div>
+        <div class="order-list" id="orders"></div>
+        <p class="empty-orders" id="emptyOrders" hidden>No orders match this view.</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      © <span id="year"></span> Woven Jewels · Payment proofs are private and visible only to authorized admins.
+    </footer>
+    <script src="./site-config.js"></script>
+    <script type="module" src="./admin.js"></script>
+  </body>
+</html>

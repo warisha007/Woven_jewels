@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e5">
+    <meta name="description" content="Pay the advance for your Woven Jewels order and upload transaction proof.">
+    <title>Payment — Woven Jewels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./workflow.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Woven Jewels home">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-wordmark" aria-hidden="true"></span>
+      </a>
+      <a class="back-link" href="./checkout.html">← Back to checkout</a>
+    </header>
+    <main class="page-shell">
+      <p class="eyebrow">Secure your order</p>
+      <h1>Payment &amp; order review</h1>
+      <p class="intro">Pay half of your order total in advance. The remaining half is payable in cash when your order is delivered.</p>
+
+      <aside class="demo-warning" id="demoWarning" role="alert">
+        Demo payment details are shown below. Do not transfer money until Woven Jewels adds its real account details.
+      </aside>
+
+      <div class="workflow-grid">
+        <section class="panel" aria-labelledby="accountTitle">
+          <h2 id="accountTitle">Woven Jewels payment account</h2>
+          <dl class="account-details">
+            <div><dt>Bank / provider</dt><dd id="bankName"></dd></div>
+            <div><dt>Account title</dt><dd id="accountTitleValue"></dd></div>
+            <div><dt>Account number / IBAN</dt><dd id="accountNumber"></dd></div>
+          </dl>
+          <p class="policy-note"><strong>Payment policy:</strong> 50% advance is required to submit your order. The other 50% is collected on delivery (COD).</p>
+        </section>
+
+        <section class="panel" aria-labelledby="orderTitle">
+          <h2 id="orderTitle">Your bill</h2>
+          <ul class="bill-items" id="billItems"></ul>
+          <dl class="bill-totals">
+            <div><dt>Subtotal</dt><dd id="subtotal">—</dd></div>
+            <div><dt>Shipping</dt><dd id="shipping">—</dd></div>
+            <div class="total-row"><dt>Total bill</dt><dd id="total">—</dd></div>
+            <div class="advance-row"><dt>Pay now · 50%</dt><dd id="advance">—</dd></div>
+            <div><dt>Due on delivery · 50%</dt><dd id="codBalance">—</dd></div>
+          </dl>
+        </section>
+      </div>
+
+      <section class="panel upload-panel" aria-labelledby="proofTitle">
+        <h2 id="proofTitle">Upload transaction screenshot</h2>
+        <p>After transferring the advance, upload a clear screenshot of the successful transaction. The image is stored privately for order review.</p>
+        <form id="paymentForm">
+          <label class="file-picker" for="transactionProof">
+            <span>Choose transaction screenshot</span>
+            <input id="transactionProof" name="transactionProof" type="file" accept="image/jpeg,image/png,image/webp" required>
+          </label>
+          <p class="file-help" id="fileHelp">PNG, JPG, or WebP · maximum 5 MB</p>
+          <button class="primary-button" id="placeOrder" type="submit" disabled>Place order</button>
+        </form>
+        <p class="status-message" id="paymentStatus" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel confirmation-panel" id="confirmation" aria-labelledby="confirmationTitle" hidden>
+        <h2 id="confirmationTitle">Order submitted for review</h2>
+        <p>Your payment screenshot has been received. Woven Jewels will review the advance before accepting your order.</p>
+        <p class="order-reference" id="orderReference"></p>
+        <a class="secondary-button" href="./index.html#collections">Continue shopping</a>
+      </section>
+    </main>
+    <footer class="site-footer">
+      © <span id="year"></span> Woven Jewels · <a href="./admin.html">Admin sign-in</a>
+    </footer>
+    <script src="./site-config.js"></script>
+    <script type="module" src="./payment.js"></script>
+  </body>
+</html>
