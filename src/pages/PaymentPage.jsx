@@ -196,9 +196,9 @@ export default function PaymentPage() {
               <section className="panel" aria-labelledby="accountTitle">
                 <h2 id="accountTitle">Woven Jewels payment account</h2>
                 <dl className="account-details">
-                  <div><dt>Bank / provider</dt><dd>{paymentAccount.bankName || "Not configured"}</dd></div>
-                  <div><dt>Account title</dt><dd>{paymentAccount.accountTitle || "Not configured"}</dd></div>
-                  <div><dt>Account number / IBAN</dt><dd>{paymentAccount.accountNumber || "Not configured"}</dd></div>
+                  <div><dt>Bank / provider</dt><dd>{paymentAccount.bankName || "Easypaisa"}</dd></div>
+                  <div><dt>Recipient name</dt><dd>{paymentAccount.accountTitle || "Asad Naeem"}</dd></div>
+                  <div><dt>Easypaisa account number</dt><dd>{paymentAccount.accountNumber || "Not configured"}</dd></div>
                 </dl>
                 <p className="policy-note"><strong>Payment policy:</strong> 50% advance is required to submit your order. The other 50% is collected on delivery (COD).</p>
               </section>
